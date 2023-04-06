@@ -7,5 +7,6 @@ namespace Users.Api.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+
     }
 }
