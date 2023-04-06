@@ -23,10 +23,10 @@ namespace Users.Api.AutoMapper
             CreateMap<Product, ProductMongo>().ReverseMap();
             CreateMap<UpdateProduct, ProductMongo>().ReverseMap();
 
-            //CreateMap<CreateOrder, Order>().ReverseMap();
-            //CreateMap<CreateOrder, OrderMongo>().ReverseMap();
-            //CreateMap<Order, OrderMongo>().ReverseMap();
-            //CreateMap<UpdateOrder, OrderMongo>().ReverseMap();
+            CreateMap<CreateStore, Store>().ReverseMap();
+            CreateMap<CreateStore, StoreMongo>().ReverseMap();
+            CreateMap<Store, StoreMongo>().ReverseMap();
+            CreateMap<UpdateStore, StoreMongo>().ReverseMap();
 
         }
     }

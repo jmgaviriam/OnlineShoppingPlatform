@@ -10,6 +10,7 @@
 		<Compile Remove="Repository\**" />
 		<EmbeddedResource Remove="Repository\**" />
 		<Compile Include="Repository\ProductRepository.cs" />
+		<Compile Include="Repository\StoreRepository.cs" />
 		<Compile Include="Repository\UserRepository.cs" />
 	</ItemGroup>
 

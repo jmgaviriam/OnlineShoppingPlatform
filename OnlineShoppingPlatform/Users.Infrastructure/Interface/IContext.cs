@@ -12,5 +12,6 @@ namespace Users.Infrastructure.Interface
     {
         public IMongoCollection<UserMongo> Users { get; }
         public IMongoCollection<ProductMongo> Products { get; }
+        public IMongoCollection<StoreMongo> Stores { get; }
     }
 }

@@ -27,6 +27,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductUseCase, ProductUseCase>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
+builder.Services.AddScoped<IStoreUseCase, StoreUseCase>();
+builder.Services.AddScoped<IStoreRepository, StoreRepository>();
+
 
 var app = builder.Build();
 

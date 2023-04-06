@@ -21,5 +21,6 @@ namespace Users.Infrastructure
 
         public IMongoCollection<UserMongo> Users => _database.GetCollection<UserMongo>("Users");
         public IMongoCollection<ProductMongo> Products => _database.GetCollection<ProductMongo>("Products");
+        public IMongoCollection<StoreMongo> Stores => _database.GetCollection<StoreMongo>("Stores");
     }
 }
