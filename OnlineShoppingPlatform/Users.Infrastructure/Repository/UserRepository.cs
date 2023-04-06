@@ -29,8 +29,8 @@ namespace Users.Infrastructure.Repository
 
         public async Task<User> GetUserById(string id)
         {
-            var user = await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
-            Guard.Against.Null(user, nameof(user), $"No se encontró ningún entrenador con el ID '{id}'");
+            var user = await _collection.Find(x => x.UserId == id).FirstOrDefaultAsync();
+            Guard.Against.Null(user, nameof(user), $"No user found with ID '{id}'");
             return _mapper.Map<User>(user);
         }
 
@@ -44,17 +44,17 @@ namespace Users.Infrastructure.Repository
         public async Task<CreateUser> UpdateUser(UpdateUser user)
         {
             var userToUpdate = _mapper.Map<UserMongo>(user);
-            var userUpdated = await _collection.FindOneAndReplaceAsync(x => x.Id == user.Id, userToUpdate);
+            var userUpdated = await _collection.FindOneAndReplaceAsync(x => x.UserId == user.Id, userToUpdate);
             Guard.Against.Null(userUpdated, nameof(userUpdated),
-                $"No se encontró ningún entrenador con el ID '{user.Id}'");
+                $"No user found with ID '{user.UserId}'");
             return _mapper.Map<CreateUser>(userToUpdate);
         }
 
         public async Task<User> DeleteUser(string id)
         {
-            var userToDelete = await _collection.FindOneAndDeleteAsync(x => x.Id == id);
+            var userToDelete = await _collection.FindOneAndDeleteAsync(x => x.UserId == id);
             Guard.Against.Null(userToDelete, nameof(userToDelete),
-                               $"No se encontró ningún entrenador con el ID '{id}'");
+                               $"No user found with ID '{id}'");
             return _mapper.Map<User>(userToDelete);
         }
     }

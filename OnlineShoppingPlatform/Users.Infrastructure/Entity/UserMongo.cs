@@ -12,7 +12,7 @@ namespace Users.Infrastructure.Entity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string ProductId { get; set; }
         public string UserId { get; set; }
 
         public string FirstName { get; set; }

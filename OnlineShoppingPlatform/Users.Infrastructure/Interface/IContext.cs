@@ -11,5 +11,6 @@ namespace Users.Infrastructure.Interface
     public interface IContext
     {
         public IMongoCollection<UserMongo> Users { get; }
+        public IMongoCollection<ProductMongo> Products { get; }
     }
 }

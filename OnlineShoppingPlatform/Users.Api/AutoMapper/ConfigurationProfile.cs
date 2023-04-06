@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Orders.Domain.Entity;
 using Users.Domain.DTO;
 using Users.Domain.Entity;
 using Users.Infrastructure.Entity;
@@ -15,6 +16,18 @@ namespace Users.Api.AutoMapper
             CreateMap<CreateUser, UserMongo>().ReverseMap();
             CreateMap<User, UserMongo>().ReverseMap();
             CreateMap<UpdateUser, UserMongo>().ReverseMap();
+
+
+            CreateMap<CreateProduct, Product>().ReverseMap();
+            CreateMap<CreateProduct, ProductMongo>().ReverseMap();
+            CreateMap<Product, ProductMongo>().ReverseMap();
+            CreateMap<UpdateProduct, ProductMongo>().ReverseMap();
+
+            //CreateMap<CreateOrder, Order>().ReverseMap();
+            //CreateMap<CreateOrder, OrderMongo>().ReverseMap();
+            //CreateMap<Order, OrderMongo>().ReverseMap();
+            //CreateMap<UpdateOrder, OrderMongo>().ReverseMap();
+
         }
     }
 }
