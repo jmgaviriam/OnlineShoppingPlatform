@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Orders.Domain.DTO;
 
 namespace Orders.UseCase.Gateway
 {
-    internal interface IOrderItemUseCase
+    public interface IOrderItemUseCase
     {
+        Task<CreateOrderItem> GetOrderItemById(string id);
+        Task<CreateOrderItem> CreateOrderItem(CreateOrderItem createOrderItem);
+        Task<CreateOrderItem> UpdateOrderItem(UpdateOrderItem updateOrderItem);
+        Task<CreateOrderItem> DeleteOrderItem(string id);
     }
 }

@@ -31,8 +31,8 @@ namespace Orders.Infrastructure.Repository
             var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             Guard.Against.Null(connection, nameof(connection));
             var payment = await connection.QuerySingleOrDefaultAsync<Payment>(
-                               $"SELECT * FROM {nombreTabla} WHERE PaymentId = @Id",
-                                              new { Id = id });
+                $"SELECT * FROM {nombreTabla} WHERE PaymentId = @Id",
+                new { Id = id });
             Guard.Against.Null(payment, nameof(payment), $"No payment found with ID '{id}'");
             connection.Close();
             return _mapper.Map<CreatePayment>(payment);
@@ -44,17 +44,17 @@ namespace Orders.Infrastructure.Repository
             var payment = _mapper.Map<Payment>(createPayment);
             payment.IsCompleted = false;
             var result = await connection.ExecuteAsync(
-                               $"INSERT INTO {nombreTabla} (PaymentId, PaymentDate, Amount ,PaymentMethod,CardNumber, CardHolderName, CVV)" +
-                               $"VALUES (NEWID(), @PaymentDate, @Amount, @PaymentMethod, @CardNumber, @CardHolderName, @CVV)",
-                               new
-                               {
-                                   payment.PaymentDate,
-                                   payment.Amount,
-                                   payment.PaymentMethod,
-                                   payment.CardNumber,
-                                   payment.CardHolderName,
-                                   payment.CVV
-                               });
+                $"INSERT INTO {nombreTabla} (PaymentId, PaymentDate, Amount ,PaymentMethod,CardNumber, CardHolderName, CVV)" +
+                   $"VALUES (NEWID(), @PaymentDate, @Amount, @PaymentMethod, @CardNumber, @CardHolderName, @CVV)",
+                  new
+                  {
+                      payment.PaymentDate,
+                      payment.Amount,
+                      payment.PaymentMethod,
+                      payment.CardNumber,
+                      payment.CardHolderName,
+                      payment.CVV
+                  });
             connection.Close();
             return _mapper.Map<CreatePayment>(payment);
         }
@@ -64,17 +64,17 @@ namespace Orders.Infrastructure.Repository
             var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             var payment = _mapper.Map<Payment>(updatePayment);
             var result = await connection.ExecuteAsync(
-                                              $"UPDATE {nombreTabla} SET PaymentId = @PaymentId, PaymentDate = @PaymentDate, Amount = @Amount, PaymentMethod = @PaymentMethod, CardNumber = @CardNumber, CardHolderName = @CardHolderName, CVV = @CVV WHERE PaymentId = @PaymentId",
-                                                                            new
-                                                                            {
-                                                                                payment.PaymentId,
-                                                                                payment.PaymentDate,
-                                                                                payment.Amount,
-                                                                                payment.PaymentMethod,
-                                                                                payment.CardNumber,
-                                                                                payment.CardHolderName,
-                                                                                payment.CVV
-                                                                            });
+                $"UPDATE {nombreTabla} SET PaymentId = @PaymentId, PaymentDate = @PaymentDate, Amount = @Amount, PaymentMethod = @PaymentMethod, CardNumber = @CardNumber, CardHolderName = @CardHolderName, CVV = @CVV WHERE PaymentId = @PaymentId",
+                new
+                {
+                    payment.PaymentId,
+                    payment.PaymentDate,
+                    payment.Amount,
+                    payment.PaymentMethod,
+                    payment.CardNumber,
+                    payment.CardHolderName,
+                    payment.CVV
+                });
             connection.Close();
             return _mapper.Map<CreatePayment>(payment);
         }

@@ -24,6 +24,9 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IPaymentUseCase, PaymentUseCase>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 
+builder.Services.AddScoped<IOrderItemUseCase, OrderItemUseCase>();
+builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+
 builder.Services.AddTransient<IDbConnectionBuilder>(e =>
 {
     return new DbConnectionBuilder(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -42,7 +45,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-//app.UseMiddleware<ErrorHandleMiddleware>();
+app.UseMiddleware<ErrorHandleMiddleware>();
 
 app.MapControllers();
 
