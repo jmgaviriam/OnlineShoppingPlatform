@@ -19,6 +19,7 @@ namespace Orders.Domain.Entity
         public int Quantity { get; set; }
 
         public decimal Price { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         // Métodos CRUD
     }

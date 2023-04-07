@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Orders.Domain.Entity
+namespace Orders.Domain.DTO
 {
-    public class Order
+    public class CreateOrder
     {
-        [Key]
-        public string OrderId { get; set; }
-
         public string UserId { get; set; }
 
         public string PaymentId { get; set; }
@@ -27,8 +23,5 @@ namespace Orders.Domain.Entity
         public decimal TotalAmount { get; set; }
 
         public string Status { get; set; }
-        public bool IsDeleted { get; set; } = false;
-
-        // Métodos CRUD
     }
 }

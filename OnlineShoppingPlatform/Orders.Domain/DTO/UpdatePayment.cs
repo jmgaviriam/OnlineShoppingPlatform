@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Orders.Domain.Entity
+namespace Orders.Domain.DTO
 {
-    public class Payment
+    public class UpdatePayment
     {
-        [Key]
         public string PaymentId { get; set; }
-
         public DateTime PaymentDate { get; set; }
 
         public decimal Amount { get; set; }
@@ -24,7 +21,5 @@ namespace Orders.Domain.Entity
 
         public string CVV { get; set; }
         public bool IsCompleted { get; set; } = false;
-
-        // Métodos CRUD
     }
 }
