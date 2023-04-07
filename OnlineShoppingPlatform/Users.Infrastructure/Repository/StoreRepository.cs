@@ -27,7 +27,7 @@ namespace Users.Infrastructure.Repository
 
         public async Task<Store> GetStoreById(string id)
         {
-            var store = await _collection.Find(x => x.StoreId == id).FirstOrDefaultAsync(); ;
+            var store = await _collection.Find(x => x.StoreId == id && x.IsDeleted == false).FirstOrDefaultAsync(); ;
             Guard.Against.Null(store, nameof(store), $"No store found with ID '{id}'");
             return _mapper.Map<Store>(store);
         }
@@ -35,6 +35,7 @@ namespace Users.Infrastructure.Repository
         public async Task<CreateStore> CreateStore(CreateStore store)
         {
             var storeToCreate = _mapper.Map<StoreMongo>(store);
+            storeToCreate.IsDeleted = false;
             await _collection.InsertOneAsync(storeToCreate);
             return store;
         }
@@ -42,7 +43,7 @@ namespace Users.Infrastructure.Repository
         public async Task<CreateStore> UpdateStore(UpdateStore store)
         {
             var storeToUpdate = _mapper.Map<StoreMongo>(store);
-            var storeUpdated = await _collection.FindOneAndReplaceAsync(x => x.StoreId == store.StoreId, storeToUpdate);
+            var storeUpdated = await _collection.FindOneAndReplaceAsync(x => x.StoreId == store.StoreId && x.IsDeleted == false, storeToUpdate);
             Guard.Against.Null(storeUpdated, nameof(storeUpdated),
                                $"No store found with ID '{store.StoreId}'");
             return _mapper.Map<CreateStore>(storeToUpdate);
@@ -50,7 +51,8 @@ namespace Users.Infrastructure.Repository
 
         public async Task<Store> DeleteStore(string id)
         {
-            var storeToDelete = await _collection.FindOneAndDeleteAsync(x => x.StoreId == id);
+            var storeToDelete = await _collection.FindOneAndUpdateAsync(x => x.StoreId == id && x.IsDeleted == false,
+                Builders<StoreMongo>.Update.Set(x => x.IsDeleted, true));
             Guard.Against.Null(storeToDelete, nameof(storeToDelete),
                                               $"No store found with ID '{id}'");
             return _mapper.Map<Store>(storeToDelete);

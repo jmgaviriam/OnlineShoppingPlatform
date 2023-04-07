@@ -29,7 +29,7 @@ namespace Users.Infrastructure.Repository
 
         public async Task<User> GetUserById(string id)
         {
-            var user = await _collection.Find(x => x.UserId == id).FirstOrDefaultAsync();
+            var user = await _collection.Find(x => x.UserId == id && x.IsDeleted == false).FirstOrDefaultAsync();
             Guard.Against.Null(user, nameof(user), $"No user found with ID '{id}'");
             return _mapper.Map<User>(user);
         }
@@ -37,6 +37,7 @@ namespace Users.Infrastructure.Repository
         public async Task<CreateUser> CreateUser(CreateUser user)
         {
             var userToCreate = _mapper.Map<UserMongo>(user);
+            userToCreate.IsDeleted = false;
             await _collection.InsertOneAsync(userToCreate);
             return user;
         }
@@ -44,7 +45,9 @@ namespace Users.Infrastructure.Repository
         public async Task<CreateUser> UpdateUser(UpdateUser user)
         {
             var userToUpdate = _mapper.Map<UserMongo>(user);
-            var userUpdated = await _collection.FindOneAndReplaceAsync(x => x.UserId == user.Id, userToUpdate);
+            userToUpdate.Id = ObjectId.Parse(user.Id).ToString();
+            var userUpdated = await _collection.FindOneAndReplaceAsync(x => x.UserId == user.UserId && x.IsDeleted == false, userToUpdate);
+
             Guard.Against.Null(userUpdated, nameof(userUpdated),
                 $"No user found with ID '{user.UserId}'");
             return _mapper.Map<CreateUser>(userToUpdate);
@@ -52,7 +55,8 @@ namespace Users.Infrastructure.Repository
 
         public async Task<User> DeleteUser(string id)
         {
-            var userToDelete = await _collection.FindOneAndDeleteAsync(x => x.UserId == id);
+            var userToDelete = await _collection.FindOneAndUpdateAsync(x => x.UserId == id && x.IsDeleted == false,
+                Builders<UserMongo>.Update.Set(x => x.IsDeleted, true));
             Guard.Against.Null(userToDelete, nameof(userToDelete),
                                $"No user found with ID '{id}'");
             return _mapper.Map<User>(userToDelete);

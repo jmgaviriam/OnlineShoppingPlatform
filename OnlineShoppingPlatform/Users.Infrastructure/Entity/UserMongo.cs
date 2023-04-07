@@ -12,7 +12,7 @@ namespace Users.Infrastructure.Entity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string ProductId { get; set; }
+        public string Id { get; set; }
         public string UserId { get; set; }
 
         public string FirstName { get; set; }
@@ -24,5 +24,6 @@ namespace Users.Infrastructure.Entity
         public string Password { get; set; }
 
         public string Role { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

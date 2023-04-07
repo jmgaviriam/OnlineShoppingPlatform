@@ -21,5 +21,6 @@ namespace Users.Infrastructure.Entity
         public string Description { get; set; }
 
         public string Logo { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
