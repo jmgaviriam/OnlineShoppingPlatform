@@ -51,15 +51,15 @@ namespace Users.Api.Controllers
         }
 
         [HttpPut("supplierpurchase/{id}")]
-        public async Task UpdateQuantityOfProductsPerSupplierPurchase(string id, int quantity)
+        public async Task<string> UpdateQuantityOfProductsPerSupplierPurchase(string id, int quantity)
         {
-            await _productUseCase.UpdateQuantityOfProductsPerSupplierPurchase(id, quantity);
+            return await _productUseCase.UpdateQuantityOfProductsPerSupplierPurchase(id, quantity);
         }
 
         [HttpPut("customersale/{id}")]
-        public async Task UpdateQuantityOfProductsPerCustomerSale(string id, int quantity)
+        public async Task<string> UpdateQuantityOfProductsPerCustomerSale(string id, int quantity)
         {
-            await _productUseCase.UpdateQuantityOfProductsPerCustomerSale(id, quantity);
+            return await _productUseCase.UpdateQuantityOfProductsPerCustomerSale(id, quantity);
         }
 
     }

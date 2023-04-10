@@ -82,7 +82,7 @@ namespace Users.Infrastructure.Repository
             return _mapper.Map<List<Product>>(products);
         }
 
-        public async Task UpdateQuantityOfProductsPerSupplierPurchase(string id, int quantity)
+        public async Task<string> UpdateQuantityOfProductsPerSupplierPurchase(string id, int quantity)
         {
             Guard.Against.NullOrEmpty(id, nameof(id));
             Guard.Against.NegativeOrZero(quantity, nameof(quantity));
@@ -94,9 +94,11 @@ namespace Users.Infrastructure.Repository
             var update = Builders<ProductMongo>.Update.Inc(x => x.Quantity, quantity);
 
             await _collection.UpdateOneAsync(filter, update);
+
+            return "Quantity updated";
         }
 
-        public async Task UpdateQuantityOfProductsPerCustomerSale(string id, int quantity)
+        public async Task<string> UpdateQuantityOfProductsPerCustomerSale(string id, int quantity)
         {
             Guard.Against.NullOrEmpty(id, nameof(id));
             Guard.Against.NegativeOrZero(quantity, nameof(quantity));
@@ -110,6 +112,8 @@ namespace Users.Infrastructure.Repository
             var filter = Builders<ProductMongo>.Filter.Eq(x => x.ProductId, id) & Builders<ProductMongo>.Filter.Eq(x => x.IsDeleted, false);
             var update = Builders<ProductMongo>.Update.Inc(x => x.Quantity, -quantity);
             await _collection.UpdateOneAsync(filter, update);
+
+            return "Quantity updated";
         }
 
     }

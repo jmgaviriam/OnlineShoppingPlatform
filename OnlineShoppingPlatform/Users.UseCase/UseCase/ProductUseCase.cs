@@ -44,14 +44,14 @@ namespace Users.UseCase.UseCase
             return await _productRepository.GetProductsByStoreId(id);
         }
 
-        public async Task UpdateQuantityOfProductsPerSupplierPurchase(string id, int quantity)
+        public async Task<string> UpdateQuantityOfProductsPerSupplierPurchase(string id, int quantity)
         {
-            await _productRepository.UpdateQuantityOfProductsPerSupplierPurchase(id, quantity);
+            return await _productRepository.UpdateQuantityOfProductsPerSupplierPurchase(id, quantity);
         }
 
-        public async Task UpdateQuantityOfProductsPerCustomerSale(string id, int quantity)
+        public async Task<string> UpdateQuantityOfProductsPerCustomerSale(string id, int quantity)
         {
-            await _productRepository.UpdateQuantityOfProductsPerCustomerSale(id, quantity);
+            return await _productRepository.UpdateQuantityOfProductsPerCustomerSale(id, quantity);
         }
     }
 }

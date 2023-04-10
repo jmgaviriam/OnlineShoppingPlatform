@@ -15,7 +15,7 @@ namespace Users.UseCase.Gateway
         Task<CreateProduct> UpdateProduct(UpdateProduct product);
         Task<Product> DeleteProduct(string id);
         Task<List<Product>> GetProductsByStoreId(string id);
-        Task UpdateQuantityOfProductsPerSupplierPurchase(string id, int quantity);
-        Task UpdateQuantityOfProductsPerCustomerSale(string id, int quantity);
+        Task<string> UpdateQuantityOfProductsPerSupplierPurchase(string id, int quantity);
+        Task<string> UpdateQuantityOfProductsPerCustomerSale(string id, int quantity);
     }
 }

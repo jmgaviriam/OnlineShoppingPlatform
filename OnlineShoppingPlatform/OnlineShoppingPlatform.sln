@@ -17,15 +17,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{2A29A4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{3D6FB153-3FCE-4AB2-9BC1-2C6F6C000E27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.Api", "Orders.Api\Orders.Api.csproj", "{ED9D3F82-A129-4C1A-B7E3-0600647E1F50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orders.Api", "Orders.Api\Orders.Api.csproj", "{ED9D3F82-A129-4C1A-B7E3-0600647E1F50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.Domain", "Orders.Domain\Orders.Domain.csproj", "{71FBE18A-D6B3-4233-84AA-D13310DD0233}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orders.Domain", "Orders.Domain\Orders.Domain.csproj", "{71FBE18A-D6B3-4233-84AA-D13310DD0233}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.UseCase", "Orders.UseCase\Orders.UseCase.csproj", "{D7DAE26E-5D5F-45AC-85F3-D978501CDBE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orders.UseCase", "Orders.UseCase\Orders.UseCase.csproj", "{D7DAE26E-5D5F-45AC-85F3-D978501CDBE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.Infrastructure", "Orders.Infrastructure\Orders.Infrastructure.csproj", "{81AA45E7-72F7-42D9-B85D-2724F664895B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orders.Infrastructure", "Orders.Infrastructure\Orders.Infrastructure.csproj", "{81AA45E7-72F7-42D9-B85D-2724F664895B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.Test", "Orders.Test\Orders.Test.csproj", "{1E825524-14B6-4E71-9BA4-628B3F25537A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orders.Test", "Orders.Test\Orders.Test.csproj", "{1E825524-14B6-4E71-9BA4-628B3F25537A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{62D0408E-BA9B-45CF-8542-EA8478AB5269}"
 EndProject
@@ -37,15 +37,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{2BFB3B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{38A7749D-632E-4931-82F0-6168E9390DCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Api", "Users.Api\Users.Api.csproj", "{8714D315-466F-452F-BA07-699C097A2C89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.Api", "Users.Api\Users.Api.csproj", "{8714D315-466F-452F-BA07-699C097A2C89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Domain", "Users.Domain\Users.Domain.csproj", "{18C63537-BF1F-4BF8-81C8-7528FB808295}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.Domain", "Users.Domain\Users.Domain.csproj", "{18C63537-BF1F-4BF8-81C8-7528FB808295}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.UseCase", "Users.UseCase\Users.UseCase.csproj", "{65941D73-74C6-4DBC-AF9D-FC968DB66145}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.UseCase", "Users.UseCase\Users.UseCase.csproj", "{65941D73-74C6-4DBC-AF9D-FC968DB66145}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Infrastructure", "Users.Infrastructure\Users.Infrastructure.csproj", "{943B52CC-ED8A-4815-8AC3-21E2F66A6E23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.Infrastructure", "Users.Infrastructure\Users.Infrastructure.csproj", "{943B52CC-ED8A-4815-8AC3-21E2F66A6E23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Test", "Users.Test\Users.Test.csproj", "{1B999D68-C3FE-4E4B-90A3-97D105CF2101}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.Test", "Users.Test\Users.Test.csproj", "{1B999D68-C3FE-4E4B-90A3-97D105CF2101}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
