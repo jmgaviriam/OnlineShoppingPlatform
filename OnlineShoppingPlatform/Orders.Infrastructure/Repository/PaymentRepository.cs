@@ -41,6 +41,18 @@ namespace Orders.Infrastructure.Repository
         public async Task<CreatePayment> CreatePayment(CreatePayment createPayment)
         {
             var connection = await _dbConnectionBuilder.CreateConnectionAsync();
+
+            Guard.Against.Null(connection, nameof(connection));
+            Guard.Against.Null(createPayment, nameof(createPayment));
+
+            Guard.Against.NullOrEmpty(createPayment.CardHolderName, nameof(createPayment.CardHolderName));
+            Guard.Against.NullOrEmpty(createPayment.PaymentMethod, nameof(createPayment.PaymentMethod));
+            Guard.Against.OutOfRange(createPayment.PaymentDate, nameof(createPayment.PaymentDate), DateTime.Now, DateTime.Now.AddYears(1));
+            Guard.Against.NegativeOrZero(createPayment.Amount, nameof(createPayment.Amount));
+            Guard.Against.NullOrEmpty(createPayment.CardNumber, nameof(createPayment.CardNumber));
+            Guard.Against.NullOrEmpty(createPayment.CVV, nameof(createPayment.CVV));
+
+
             var payment = _mapper.Map<Payment>(createPayment);
             payment.IsCompleted = false;
             var result = await connection.ExecuteAsync(
@@ -62,6 +74,17 @@ namespace Orders.Infrastructure.Repository
         public async Task<CreatePayment> UpdatePayment(UpdatePayment updatePayment)
         {
             var connection = await _dbConnectionBuilder.CreateConnectionAsync();
+
+            Guard.Against.Null(connection, nameof(connection));
+            Guard.Against.Null(updatePayment, nameof(updatePayment));
+
+            Guard.Against.NullOrEmpty(updatePayment.CardHolderName, nameof(updatePayment.CardHolderName));
+            Guard.Against.NullOrEmpty(updatePayment.PaymentMethod, nameof(updatePayment.PaymentMethod));
+            Guard.Against.OutOfRange(updatePayment.PaymentDate, nameof(updatePayment.PaymentDate), DateTime.Now, DateTime.Now.AddYears(1));
+            Guard.Against.NegativeOrZero(updatePayment.Amount, nameof(updatePayment.Amount));
+            Guard.Against.NullOrEmpty(updatePayment.CardNumber, nameof(updatePayment.CardNumber));
+            Guard.Against.NullOrEmpty(updatePayment.CVV, nameof(updatePayment.CVV));
+
             var payment = _mapper.Map<Payment>(updatePayment);
             var result = await connection.ExecuteAsync(
                 $"UPDATE {nombreTabla} SET PaymentId = @PaymentId, PaymentDate = @PaymentDate, Amount = @Amount, PaymentMethod = @PaymentMethod, CardNumber = @CardNumber, CardHolderName = @CardHolderName, CVV = @CVV WHERE PaymentId = @PaymentId",

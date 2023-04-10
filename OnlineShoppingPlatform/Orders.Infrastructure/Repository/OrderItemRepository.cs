@@ -40,6 +40,12 @@ namespace Orders.Infrastructure.Repository
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             var orderItem = _mapper.Map<OrderItem>(createOrderItem);
             orderItem.IsDeleted = false;
+
+            Guard.Against.NullOrEmpty(orderItem.OrderId, nameof(orderItem.OrderId));
+            Guard.Against.NullOrEmpty(orderItem.ProductId, nameof(orderItem.ProductId));
+            Guard.Against.NegativeOrZero(orderItem.Quantity, nameof(orderItem.Quantity));
+            Guard.Against.NegativeOrZero((double)orderItem.Price, nameof(orderItem.Price));
+
             var result = await connection.ExecuteAsync(
                 $"INSERT INTO {tableName} (OrderItemId, OrderId, ProductId, Quantity, Price, IsDeleted) " +
                 $"VALUES (NEWID(), @OrderId, @ProductId, @Quantity, @Price, @IsDeleted)",
@@ -60,6 +66,13 @@ namespace Orders.Infrastructure.Repository
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             var orderItem = _mapper.Map<OrderItem>(updateOrderItem);
             orderItem.IsDeleted = false;
+
+            Guard.Against.NullOrEmpty(orderItem.OrderId, nameof(orderItem.OrderId));
+            Guard.Against.NullOrEmpty(orderItem.ProductId, nameof(orderItem.ProductId));
+            Guard.Against.NegativeOrZero(orderItem.Quantity, nameof(orderItem.Quantity));
+            Guard.Against.NegativeOrZero((double)orderItem.Price, nameof(orderItem.Price));
+
+
             var result = await connection.ExecuteAsync(
                 $"UPDATE {tableName} SET OrderId = @OrderId, ProductId = @ProductId, Quantity = @Quantity, Price = @Price, IsDeleted = @IsDeleted " +
                 $"WHERE OrderItemId = @OrderItemId",
@@ -80,8 +93,9 @@ namespace Orders.Infrastructure.Repository
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             var orderItem = await connection.QueryFirstOrDefaultAsync<OrderItem>(
-                               $"SELECT * FROM {tableName} WHERE OrderItemId = @Id AND IsDeleted = 0", new { Id = id });
+                $"SELECT * FROM {tableName} WHERE OrderItemId = @Id AND IsDeleted = 0", new { Id = id });
             Guard.Against.Null(orderItem, nameof(orderItem), $"No order item found with ID '{id}'");
+
             orderItem.IsDeleted = true;
             var result = await connection.ExecuteAsync(
                 $"UPDATE {tableName} SET IsDeleted = @IsDeleted WHERE OrderItemId = @OrderItemId",
@@ -93,5 +107,8 @@ namespace Orders.Infrastructure.Repository
             connection.Close();
             return _mapper.Map<CreateOrderItem>(orderItem);
         }
+
     }
 }
+
+

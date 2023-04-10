@@ -29,6 +29,7 @@ namespace Orders.Infrastructure.Repository
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             Guard.Against.Null(connection, nameof(connection));
+            Guard.Against.NullOrEmpty(id, nameof(id));
             var order = await connection.QuerySingleOrDefaultAsync<Order>(
                 $"SELECT * FROM {tableName} WHERE OrderId = @Id AND IsDeleted = 0",
                 new { Id = id });
@@ -40,8 +41,14 @@ namespace Orders.Infrastructure.Repository
         public async Task<CreateOrder> CreateOrder(CreateOrder createOrder)
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
+            Guard.Against.Null(connection, nameof(connection));
             var order = _mapper.Map<Order>(createOrder);
             order.IsDeleted = false;
+            Guard.Against.NullOrEmpty(order.UserId, nameof(order.UserId));
+            Guard.Against.NullOrEmpty(order.PaymentId, nameof(order.PaymentId));
+            Guard.Against.NullOrEmpty(order.ShippingAddress, nameof(order.ShippingAddress));
+            Guard.Against.NegativeOrZero(order.TotalAmount, nameof(order.TotalAmount));
+            Guard.Against.NullOrEmpty(order.Status, nameof(order.Status));
             var result = await connection.ExecuteAsync(
                 $"INSERT INTO {tableName} (OrderId, UserId, PaymentId, OrderDate, ShippingDate, DeliveryDate, ShippingAddress, TotalAmount, Status, IsDeleted) " +
                 $"VALUES (NEWID(), @UserId, @PaymentId, @OrderDate, @ShippingDate, @DeliveryDate, @ShippingAddress, @TotalAmount, @Status, @IsDeleted)",
@@ -64,7 +71,16 @@ namespace Orders.Infrastructure.Repository
         public async Task<CreateOrder> UpdateOrder(UpdateOrder updateOrder)
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
+            Guard.Against.Null(connection, nameof(connection));
             var order = _mapper.Map<Order>(updateOrder);
+
+            Guard.Against.NullOrEmpty(order.UserId, nameof(order.UserId));
+            Guard.Against.NullOrEmpty(order.PaymentId, nameof(order.PaymentId));
+            Guard.Against.NegativeOrZero(order.TotalAmount, nameof(order.TotalAmount));
+            Guard.Against.Null(order.Status, nameof(order.Status));
+            Guard.Against.Null(order.OrderId, nameof(order.OrderId));
+            Guard.Against.NullOrEmpty(order.ShippingAddress, nameof(order.ShippingAddress));
+
 
             var result = await connection.ExecuteAsync(
                 $"UPDATE {tableName} " +
@@ -93,10 +109,12 @@ namespace Orders.Infrastructure.Repository
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             Guard.Against.Null(connection, nameof(connection));
+            Guard.Against.NullOrEmpty(id, nameof(id));
 
             var orders = await connection.QueryAsync<Order>(
                 $"SELECT * FROM {tableName} WHERE UserId = @Id AND IsDeleted = 0",
                 new { Id = id });
+            Guard.Against.NullOrEmpty(orders, nameof(orders), $"No orders found with user ID '{id}'");
             connection.Close();
 
             return _mapper.Map<List<CreateOrder>>(orders);
@@ -105,6 +123,8 @@ namespace Orders.Infrastructure.Repository
         public async Task UpdateOrderStatus(string id, string status)
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
+            Guard.Against.Null(connection, nameof(connection));
+            Guard.Against.NullOrEmpty(id, nameof(id));
             var result = await connection.ExecuteAsync(
                 $"UPDATE {tableName} " +
                 "SET Status = @Status " +
