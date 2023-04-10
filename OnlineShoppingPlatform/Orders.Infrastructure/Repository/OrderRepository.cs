@@ -120,7 +120,7 @@ namespace Orders.Infrastructure.Repository
             return _mapper.Map<List<CreateOrder>>(orders);
         }
 
-        public async Task UpdateOrderStatus(string id, string status)
+        public async Task<string> UpdateOrderStatus(string id, string status)
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             Guard.Against.Null(connection, nameof(connection));
@@ -135,6 +135,7 @@ namespace Orders.Infrastructure.Repository
                     OrderId = id
                 });
             connection.Close();
+            return "Update successful";
         }
     }
 }

@@ -38,9 +38,9 @@ namespace Orders.UseCase.UseCase
             return await _orderRepository.GetOrdersByUserId(id);
         }
 
-        public async Task UpdateOrderStatus(string id, string status)
+        public async Task<string> UpdateOrderStatus(string id, string status)
         {
-            await _orderRepository.UpdateOrderStatus(id, status);
+            return await _orderRepository.UpdateOrderStatus(id, status);
         }
     }
 }

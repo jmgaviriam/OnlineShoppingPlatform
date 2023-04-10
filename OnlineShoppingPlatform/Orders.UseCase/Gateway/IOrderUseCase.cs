@@ -14,6 +14,6 @@ namespace Orders.UseCase.Gateway
         Task<CreateOrder> UpdateOrder(UpdateOrder updateOrder);
 
         Task<List<CreateOrder>> GetOrdersByUserId(string id);
-        Task UpdateOrderStatus(string id, string status);
+        Task<string> UpdateOrderStatus(string id, string status);
     }
 }

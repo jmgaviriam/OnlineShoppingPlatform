@@ -44,9 +44,9 @@ namespace Orders.Api.Controllers
         }
 
         [HttpPut("updateorderstatus/{id}")]
-        public async Task UpdateOrderStatus(string id, string status)
+        public async Task<string> UpdateOrderStatus(string id, string status)
         {
-            await _orderUseCase.UpdateOrderStatus(id, status);
+            return await _orderUseCase.UpdateOrderStatus(id, status);
         }
     }
 }
