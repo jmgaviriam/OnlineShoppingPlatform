@@ -12,5 +12,7 @@ namespace Orders.UseCase.Gateway.Repository
         Task<CreateOrder> GetOrderById(string id);
         Task<CreateOrder> CreateOrder(CreateOrder createOrder);
         Task<CreateOrder> UpdateOrder(UpdateOrder updateOrder);
+        Task<List<CreateOrder>> GetOrdersByUserId(string id);
+        Task UpdateOrderStatus(string id, string status);
     }
 }

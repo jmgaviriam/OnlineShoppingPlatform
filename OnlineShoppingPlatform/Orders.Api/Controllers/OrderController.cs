@@ -37,5 +37,17 @@ namespace Orders.Api.Controllers
             return await _orderUseCase.UpdateOrder(updateOrder);
         }
 
+        [HttpGet("ordersbyuser/{id}")]
+        public async Task<List<CreateOrder>> GetOrdersByUserId(string id)
+        {
+            return await _orderUseCase.GetOrdersByUserId(id);
+        }
+
+        [HttpPut("updateorderstatus/{id}")]
+        public async Task UpdateOrderStatus(string id, string status)
+        {
+            await _orderUseCase.UpdateOrderStatus(id, status);
+        }
     }
 }
+

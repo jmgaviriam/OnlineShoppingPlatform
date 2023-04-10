@@ -89,5 +89,32 @@ namespace Orders.Infrastructure.Repository
             return _mapper.Map<CreateOrder>(order);
         }
 
+        public async Task<List<CreateOrder>> GetOrdersByUserId(string id)
+        {
+            using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
+            Guard.Against.Null(connection, nameof(connection));
+
+            var orders = await connection.QueryAsync<Order>(
+                $"SELECT * FROM {tableName} WHERE UserId = @Id AND IsDeleted = 0",
+                new { Id = id });
+            connection.Close();
+
+            return _mapper.Map<List<CreateOrder>>(orders);
+        }
+
+        public async Task UpdateOrderStatus(string id, string status)
+        {
+            using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
+            var result = await connection.ExecuteAsync(
+                $"UPDATE {tableName} " +
+                "SET Status = @Status " +
+                "WHERE OrderId = @OrderId",
+                new
+                {
+                    Status = status,
+                    OrderId = id
+                });
+            connection.Close();
+        }
     }
 }
