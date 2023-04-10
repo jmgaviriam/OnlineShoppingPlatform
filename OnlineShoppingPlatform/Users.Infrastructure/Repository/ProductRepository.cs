@@ -35,6 +35,13 @@ namespace Users.Infrastructure.Repository
 
         public async Task<CreateProduct> CreateProduct(CreateProduct product)
         {
+            Guard.Against.Null(product, nameof(product));
+            Guard.Against.NullOrEmpty(product.Name, nameof(product.Name));
+            Guard.Against.NullOrEmpty(product.Description, nameof(product.Description));
+            Guard.Against.NegativeOrZero(product.Price, nameof(product.Price));
+            Guard.Against.NegativeOrZero(product.Quantity, nameof(product.Quantity));
+            Guard.Against.NullOrEmpty(product.StoreId, nameof(product.StoreId));
+
             var productToCreate = _mapper.Map<ProductMongo>(product);
             productToCreate.IsDeleted = false;
             await _collection.InsertOneAsync(productToCreate);
@@ -43,6 +50,13 @@ namespace Users.Infrastructure.Repository
 
         public async Task<CreateProduct> UpdateProduct(UpdateProduct product)
         {
+            Guard.Against.Null(product, nameof(product));
+            Guard.Against.NullOrEmpty(product.Name, nameof(product.Name));
+            Guard.Against.NullOrEmpty(product.Description, nameof(product.Description));
+            Guard.Against.NegativeOrZero(product.Price, nameof(product.Price));
+            Guard.Against.NegativeOrZero(product.Quantity, nameof(product.Quantity));
+            Guard.Against.NullOrEmpty(product.StoreId, nameof(product.StoreId));
+
             var productToUpdate = _mapper.Map<ProductMongo>(product);
             var productUpdated = await _collection.FindOneAndReplaceAsync(x => x.ProductId == product.ProductId && x.IsDeleted == false, productToUpdate);
             Guard.Against.Null(productUpdated, nameof(productUpdated), $"No product found with ID '{product.ProductId}'");
@@ -51,6 +65,7 @@ namespace Users.Infrastructure.Repository
 
         public async Task<Product> DeleteProduct(string id)
         {
+            Guard.Against.NullOrWhiteSpace(id, nameof(id));
             var productToUpdate = await _collection.FindOneAndUpdateAsync(
                 x => x.ProductId == id && !x.IsDeleted,
                 Builders<ProductMongo>.Update.Set(x => x.IsDeleted, true));
@@ -62,6 +77,7 @@ namespace Users.Infrastructure.Repository
 
         public async Task<List<Product>> GetProductsByStoreId(string id)
         {
+            Guard.Against.NullOrWhiteSpace(id, nameof(id));
             var products = await _collection.Find(x => x.StoreId == id && x.IsDeleted == false).ToListAsync();
             return _mapper.Map<List<Product>>(products);
         }

@@ -27,6 +27,7 @@ namespace Users.Infrastructure.Repository
 
         public async Task<Store> GetStoreById(string id)
         {
+            Guard.Against.NullOrWhiteSpace(id, nameof(id));
             var store = await _collection.Find(x => x.StoreId == id && x.IsDeleted == false).FirstOrDefaultAsync(); ;
             Guard.Against.Null(store, nameof(store), $"No store found with ID '{id}'");
             return _mapper.Map<Store>(store);
@@ -34,6 +35,11 @@ namespace Users.Infrastructure.Repository
 
         public async Task<CreateStore> CreateStore(CreateStore store)
         {
+            Guard.Against.Null(store, nameof(store));
+            Guard.Against.NullOrEmpty(store.Name, nameof(store.Name));
+            Guard.Against.NullOrEmpty(store.Description, nameof(store.Description));
+
+
             var storeToCreate = _mapper.Map<StoreMongo>(store);
             storeToCreate.IsDeleted = false;
             await _collection.InsertOneAsync(storeToCreate);
@@ -42,6 +48,10 @@ namespace Users.Infrastructure.Repository
 
         public async Task<CreateStore> UpdateStore(UpdateStore store)
         {
+            Guard.Against.Null(store, nameof(store));
+            Guard.Against.NullOrEmpty(store.Name, nameof(store.Name));
+            Guard.Against.NullOrEmpty(store.Description, nameof(store.Description));
+
             var storeToUpdate = _mapper.Map<StoreMongo>(store);
             var storeUpdated = await _collection.FindOneAndReplaceAsync(x => x.StoreId == store.StoreId && x.IsDeleted == false, storeToUpdate);
             Guard.Against.Null(storeUpdated, nameof(storeUpdated),
@@ -51,6 +61,7 @@ namespace Users.Infrastructure.Repository
 
         public async Task<Store> DeleteStore(string id)
         {
+            Guard.Against.NullOrWhiteSpace(id, nameof(id));
             var storeToDelete = await _collection.FindOneAndUpdateAsync(x => x.StoreId == id && x.IsDeleted == false,
                 Builders<StoreMongo>.Update.Set(x => x.IsDeleted, true));
             Guard.Against.Null(storeToDelete, nameof(storeToDelete),
