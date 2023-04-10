@@ -44,5 +44,23 @@ namespace Users.Api.Controllers
             return await _productUseCase.DeleteProduct(id);
         }
 
+        [HttpGet("productsbystore/{id}")]
+        public async Task<List<Product>> GetProductByStoreId(string id)
+        {
+            return await _productUseCase.GetProductsByStoreId(id);
+        }
+
+        [HttpPut("supplierpurchase/{id}")]
+        public async Task UpdateQuantityOfProductsPerSupplierPurchase(string id, int quantity)
+        {
+            await _productUseCase.UpdateQuantityOfProductsPerSupplierPurchase(id, quantity);
+        }
+
+        [HttpPut("customersale/{id}")]
+        public async Task UpdateQuantityOfProductsPerCustomerSale(string id, int quantity)
+        {
+            await _productUseCase.UpdateQuantityOfProductsPerCustomerSale(id, quantity);
+        }
+
     }
 }

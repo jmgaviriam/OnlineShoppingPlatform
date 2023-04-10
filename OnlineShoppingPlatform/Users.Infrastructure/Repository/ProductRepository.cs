@@ -59,5 +59,42 @@ namespace Users.Infrastructure.Repository
 
             return _mapper.Map<Product>(productToUpdate);
         }
+
+        public async Task<List<Product>> GetProductsByStoreId(string id)
+        {
+            var products = await _collection.Find(x => x.StoreId == id && x.IsDeleted == false).ToListAsync();
+            return _mapper.Map<List<Product>>(products);
+        }
+
+        public async Task UpdateQuantityOfProductsPerSupplierPurchase(string id, int quantity)
+        {
+            Guard.Against.NullOrEmpty(id, nameof(id));
+            Guard.Against.NegativeOrZero(quantity, nameof(quantity));
+
+            var product = await _collection.Find(x => x.ProductId == id && x.IsDeleted == false).FirstOrDefaultAsync();
+            Guard.Against.Null(product, nameof(product), $"No product found with ID '{id}'");
+
+            var filter = Builders<ProductMongo>.Filter.Eq(x => x.ProductId, id) & Builders<ProductMongo>.Filter.Eq(x => x.IsDeleted, false);
+            var update = Builders<ProductMongo>.Update.Inc(x => x.Quantity, quantity);
+
+            await _collection.UpdateOneAsync(filter, update);
+        }
+
+        public async Task UpdateQuantityOfProductsPerCustomerSale(string id, int quantity)
+        {
+            Guard.Against.NullOrEmpty(id, nameof(id));
+            Guard.Against.NegativeOrZero(quantity, nameof(quantity));
+
+            var product = await _collection.Find(x => x.ProductId == id && x.IsDeleted == false).FirstOrDefaultAsync();
+            Guard.Against.Null(product, nameof(product), $"No product found with ID '{id}'");
+
+            Guard.Against.OutOfRange(quantity, nameof(quantity), 1, product.Quantity,
+                $"Quantity must be between 1 and {product.Quantity}.");
+
+            var filter = Builders<ProductMongo>.Filter.Eq(x => x.ProductId, id) & Builders<ProductMongo>.Filter.Eq(x => x.IsDeleted, false);
+            var update = Builders<ProductMongo>.Update.Inc(x => x.Quantity, -quantity);
+            await _collection.UpdateOneAsync(filter, update);
+        }
+
     }
 }

@@ -38,5 +38,20 @@ namespace Users.UseCase.UseCase
         {
             return await _productRepository.DeleteProduct(id);
         }
+
+        public async Task<List<Product>> GetProductsByStoreId(string id)
+        {
+            return await _productRepository.GetProductsByStoreId(id);
+        }
+
+        public async Task UpdateQuantityOfProductsPerSupplierPurchase(string id, int quantity)
+        {
+            await _productRepository.UpdateQuantityOfProductsPerSupplierPurchase(id, quantity);
+        }
+
+        public async Task UpdateQuantityOfProductsPerCustomerSale(string id, int quantity)
+        {
+            await _productRepository.UpdateQuantityOfProductsPerCustomerSale(id, quantity);
+        }
     }
 }
