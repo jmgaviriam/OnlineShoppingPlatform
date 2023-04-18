@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Orders.Domain.DTO;
+using Orders.Domain.Entity;
 using Orders.UseCase.Gateway;
 using Orders.UseCase.Gateway.Repository;
 
@@ -18,17 +19,17 @@ namespace Orders.UseCase.UseCase
             _paymentRepository = paymentRepository;
         }
 
-        public async Task<CreatePayment> GetPaymentById(string id)
+        public async Task<Payment> GetPaymentById(string id)
         {
             return await _paymentRepository.GetPaymentById(id);
         }
 
-        public async Task<CreatePayment> CreatePayment(CreatePayment createPayment)
+        public async Task<Payment> CreatePayment(CreatePayment createPayment)
         {
             return await _paymentRepository.CreatePayment(createPayment);
         }
 
-        public async Task<CreatePayment> UpdatePayment(UpdatePayment updatePayment)
+        public async Task<Payment> UpdatePayment(UpdatePayment updatePayment)
         {
             return await _paymentRepository.UpdatePayment(updatePayment);
         }

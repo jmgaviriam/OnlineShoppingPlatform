@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Orders.Domain.DTO;
+using Orders.Domain.Entity;
 using Orders.UseCase.Gateway;
 
 namespace Orders.Api.Controllers
 {
+    [EnableCors("AllowAllHeaders")]
     [Route("api/[controller]")]
     [ApiController]
     public class PaymentController : Controller
@@ -19,19 +22,20 @@ namespace Orders.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<CreatePayment> GetPaymentById(string id)
+        public async Task<Payment> GetPaymentById(string id)
         {
-            return await _paymentUseCase.GetPaymentById(id);
+            return await _paymentUseCase.GetPaymentById(id).ConfigureAwait(false);
         }
 
+        [EnableCors("AllowAllHeaders")]
         [HttpPost]
-        public async Task<CreatePayment> CreatePayment(CreatePayment createPayment)
+        public async Task<Payment> CreatePayment(CreatePayment createPayment)
         {
             return await _paymentUseCase.CreatePayment(createPayment);
         }
 
         [HttpPut]
-        public async Task<CreatePayment> UpdatePayment(UpdatePayment updatePayment)
+        public async Task<Payment> UpdatePayment(UpdatePayment updatePayment)
         {
             return await _paymentUseCase.UpdatePayment(updatePayment);
         }

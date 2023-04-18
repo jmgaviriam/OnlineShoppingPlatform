@@ -25,7 +25,7 @@ namespace Orders.Infrastructure.Repository
             _mapper = mapper;
         }
 
-        public async Task<CreateOrder> GetOrderById(string id)
+        public async Task<Order> GetOrderById(string id)
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             Guard.Against.Null(connection, nameof(connection));
@@ -35,15 +35,16 @@ namespace Orders.Infrastructure.Repository
                 new { Id = id });
             Guard.Against.Null(order, nameof(order), $"No order found with ID '{id}'");
             connection.Close();
-            return _mapper.Map<CreateOrder>(order);
+            return _mapper.Map<Order>(order);
         }
 
-        public async Task<CreateOrder> CreateOrder(CreateOrder createOrder)
+        public async Task<Order> CreateOrder(CreateOrder createOrder)
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             Guard.Against.Null(connection, nameof(connection));
             var order = _mapper.Map<Order>(createOrder);
             order.IsDeleted = false;
+            order.OrderId = Guid.NewGuid().ToString();
             Guard.Against.NullOrEmpty(order.UserId, nameof(order.UserId));
             Guard.Against.NullOrEmpty(order.PaymentId, nameof(order.PaymentId));
             Guard.Against.NullOrEmpty(order.ShippingAddress, nameof(order.ShippingAddress));
@@ -51,9 +52,10 @@ namespace Orders.Infrastructure.Repository
             Guard.Against.NullOrEmpty(order.Status, nameof(order.Status));
             var result = await connection.ExecuteAsync(
                 $"INSERT INTO {tableName} (OrderId, UserId, PaymentId, OrderDate, ShippingDate, DeliveryDate, ShippingAddress, TotalAmount, Status, IsDeleted) " +
-                $"VALUES (NEWID(), @UserId, @PaymentId, @OrderDate, @ShippingDate, @DeliveryDate, @ShippingAddress, @TotalAmount, @Status, @IsDeleted)",
+                $"VALUES (@OrderId, @UserId, @PaymentId, @OrderDate, @ShippingDate, @DeliveryDate, @ShippingAddress, @TotalAmount, @Status, @IsDeleted)",
                 new
                 {
+                    order.OrderId,
                     order.UserId,
                     order.PaymentId,
                     order.OrderDate,
@@ -65,10 +67,10 @@ namespace Orders.Infrastructure.Repository
                     order.IsDeleted
                 });
             connection.Close();
-            return _mapper.Map<CreateOrder>(order);
+            return order;
         }
 
-        public async Task<CreateOrder> UpdateOrder(UpdateOrder updateOrder)
+        public async Task<Order> UpdateOrder(UpdateOrder updateOrder)
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             Guard.Against.Null(connection, nameof(connection));
@@ -102,10 +104,10 @@ namespace Orders.Infrastructure.Repository
                     order.OrderId
                 });
             connection.Close();
-            return _mapper.Map<CreateOrder>(order);
+            return _mapper.Map<Order>(order);
         }
 
-        public async Task<List<CreateOrder>> GetOrdersByUserId(string id)
+        public async Task<List<Order>> GetOrdersByUserId(string id)
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             Guard.Against.Null(connection, nameof(connection));
@@ -117,7 +119,7 @@ namespace Orders.Infrastructure.Repository
             Guard.Against.NullOrEmpty(orders, nameof(orders), $"No orders found with user ID '{id}'");
             connection.Close();
 
-            return _mapper.Map<List<CreateOrder>>(orders);
+            return _mapper.Map<List<Order>>(orders);
         }
 
         public async Task<string> UpdateOrderStatus(string id, string status)

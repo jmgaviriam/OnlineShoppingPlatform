@@ -10,6 +10,31 @@ using Users.UseCase.UseCase;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var MyAllowsSpecificOrigins = "_myAllowsSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowsSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+                .SetIsOriginAllowedToAllowWildcardSubdomains();
+        });
+});
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllHeaders",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -40,12 +65,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(MyAllowsSpecificOrigins);
+app.UseCors("AllowAllHeaders");
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+
 app.UseMiddleware<ErrorHandleMiddleware>();
 
 app.MapControllers();
+
 
 app.Run();

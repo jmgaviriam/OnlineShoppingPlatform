@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Users.Domain.DTO;
@@ -7,6 +8,7 @@ using Users.UseCase.Gateway;
 
 namespace Users.Api.Controllers
 {
+    [EnableCors("AllowAllHeaders")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -20,18 +22,21 @@ namespace Users.Api.Controllers
             _mapper = mapper;
         }
 
+        [EnableCors("AllowAllHeaders")]
         [HttpGet]
         public async Task<Product> GetProductById(string id)
         {
             return await _productUseCase.GetProductById(id);
         }
 
+        [EnableCors("AllowAllHeaders")]
         [HttpPost]
         public async Task<CreateProduct> CreateProduct(CreateProduct product)
         {
             return await _productUseCase.CreateProduct(product);
         }
 
+        [EnableCors("AllowAllHeaders")]
         [HttpPut]
         public async Task<CreateProduct> UpdateProduct(UpdateProduct product)
         {

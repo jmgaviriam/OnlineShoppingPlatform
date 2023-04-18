@@ -25,32 +25,32 @@ namespace Orders.Infrastructure.Repository
             _mapper = mapper;
         }
 
-        public async Task<CreateOrderItem> GetOrderItemById(string id)
+        public async Task<OrderItem> GetOrderItemById(string id)
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             var orderItem = await connection.QueryFirstOrDefaultAsync<CreateOrderItem>(
                 $"SELECT * FROM {tableName} WHERE OrderItemId = @Id AND IsDeleted = 0", new { Id = id });
             Guard.Against.Null(orderItem, nameof(orderItem), $"No order item found with ID '{id}'");
             connection.Close();
-            return _mapper.Map<CreateOrderItem>(orderItem);
+            return _mapper.Map<OrderItem>(orderItem);
         }
 
-        public async Task<CreateOrderItem> CreateOrderItem(CreateOrderItem createOrderItem)
+        public async Task<OrderItem> CreateOrderItem(CreateOrderItem createOrderItem)
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             var orderItem = _mapper.Map<OrderItem>(createOrderItem);
             orderItem.IsDeleted = false;
 
-            Guard.Against.NullOrEmpty(orderItem.OrderId, nameof(orderItem.OrderId));
             Guard.Against.NullOrEmpty(orderItem.ProductId, nameof(orderItem.ProductId));
             Guard.Against.NegativeOrZero(orderItem.Quantity, nameof(orderItem.Quantity));
             Guard.Against.NegativeOrZero((double)orderItem.Price, nameof(orderItem.Price));
-
+            orderItem.OrderItemId = Guid.NewGuid().ToString();
             var result = await connection.ExecuteAsync(
                 $"INSERT INTO {tableName} (OrderItemId, OrderId, ProductId, Quantity, Price, IsDeleted) " +
-                $"VALUES (NEWID(), @OrderId, @ProductId, @Quantity, @Price, @IsDeleted)",
+                $"VALUES (@OrderItemId, @OrderId, @ProductId, @Quantity, @Price, @IsDeleted)",
                 new
                 {
+                    orderItem.OrderItemId,
                     orderItem.OrderId,
                     orderItem.ProductId,
                     orderItem.Quantity,
@@ -58,10 +58,10 @@ namespace Orders.Infrastructure.Repository
                     orderItem.IsDeleted
                 });
             connection.Close();
-            return _mapper.Map<CreateOrderItem>(orderItem);
+            return orderItem;
         }
 
-        public async Task<CreateOrderItem> UpdateOrderItem(UpdateOrderItem updateOrderItem)
+        public async Task<OrderItem> UpdateOrderItem(UpdateOrderItem updateOrderItem)
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             var orderItem = _mapper.Map<OrderItem>(updateOrderItem);
@@ -86,10 +86,10 @@ namespace Orders.Infrastructure.Repository
                     orderItem.OrderItemId
                 });
             connection.Close();
-            return _mapper.Map<CreateOrderItem>(orderItem);
+            return _mapper.Map<OrderItem>(orderItem);
         }
 
-        public async Task<CreateOrderItem> DeleteOrderItem(string id)
+        public async Task<OrderItem> DeleteOrderItem(string id)
         {
             using var connection = await _dbConnectionBuilder.CreateConnectionAsync();
             var orderItem = await connection.QueryFirstOrDefaultAsync<OrderItem>(
@@ -105,7 +105,7 @@ namespace Orders.Infrastructure.Repository
                     orderItem.OrderItemId
                 });
             connection.Close();
-            return _mapper.Map<CreateOrderItem>(orderItem);
+            return _mapper.Map<OrderItem>(orderItem);
         }
 
     }

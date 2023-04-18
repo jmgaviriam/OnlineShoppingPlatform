@@ -20,6 +20,13 @@ namespace Users.Api.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("GetStores")]
+
+        public async Task<List<Store>> GetStores()
+        {
+            return await _storeRepository.GetStores();
+        }
+
         [HttpGet]
         public async Task<Store> GetStoreById(string id)
         {

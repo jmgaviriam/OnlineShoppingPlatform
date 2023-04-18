@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Orders.Domain.DTO;
+using Orders.Domain.Entity;
 using Orders.UseCase.Gateway;
 using Orders.UseCase.Gateway.Repository;
 
@@ -18,22 +19,22 @@ namespace Orders.UseCase.UseCase
             _orderRepository = orderRepository;
         }
 
-        public async Task<CreateOrder> GetOrderById(string id)
+        public async Task<Order> GetOrderById(string id)
         {
             return await _orderRepository.GetOrderById(id);
         }
 
-        public async Task<CreateOrder> CreateOrder(CreateOrder createOrder)
+        public async Task<Order> CreateOrder(CreateOrder createOrder)
         {
             return await _orderRepository.CreateOrder(createOrder);
         }
 
-        public async Task<CreateOrder> UpdateOrder(UpdateOrder updateOrder)
+        public async Task<Order> UpdateOrder(UpdateOrder updateOrder)
         {
             return await _orderRepository.UpdateOrder(updateOrder);
         }
 
-        public async Task<List<CreateOrder>> GetOrdersByUserId(string id)
+        public async Task<List<Order>> GetOrdersByUserId(string id)
         {
             return await _orderRepository.GetOrdersByUserId(id);
         }

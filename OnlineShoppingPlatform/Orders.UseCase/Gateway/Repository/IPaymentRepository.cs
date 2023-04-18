@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Orders.Domain.DTO;
+using Orders.Domain.Entity;
 
 namespace Orders.UseCase.Gateway.Repository
 {
     public interface IPaymentRepository
     {
-        Task<CreatePayment> GetPaymentById(string id);
-        Task<CreatePayment> CreatePayment(CreatePayment createPayment);
-        Task<CreatePayment> UpdatePayment(UpdatePayment updatePayment);
+        Task<Payment> GetPaymentById(string id);
+        Task<Payment> CreatePayment(CreatePayment createPayment);
+        Task<Payment> UpdatePayment(UpdatePayment updatePayment);
     }
 }

@@ -19,6 +19,11 @@ namespace Users.UseCase.UseCase
             _storeRepository = storeRepository;
         }
 
+        public async Task<List<Store>> GetStores()
+        {
+            return await _storeRepository.GetStores();
+        }
+
         public async Task<Store> GetStoreById(string id)
         {
             return await _storeRepository.GetStoreById(id);

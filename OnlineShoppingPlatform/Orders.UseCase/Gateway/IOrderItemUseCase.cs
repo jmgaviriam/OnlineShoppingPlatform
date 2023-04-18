@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Orders.Domain.DTO;
+using Orders.Domain.Entity;
 
 namespace Orders.UseCase.Gateway
 {
     public interface IOrderItemUseCase
     {
-        Task<CreateOrderItem> GetOrderItemById(string id);
-        Task<CreateOrderItem> CreateOrderItem(CreateOrderItem createOrderItem);
-        Task<CreateOrderItem> UpdateOrderItem(UpdateOrderItem updateOrderItem);
-        Task<CreateOrderItem> DeleteOrderItem(string id);
+        Task<OrderItem> GetOrderItemById(string id);
+        Task<OrderItem> CreateOrderItem(CreateOrderItem createOrderItem);
+        Task<OrderItem> UpdateOrderItem(UpdateOrderItem updateOrderItem);
+        Task<OrderItem> DeleteOrderItem(string id);
     }
 }

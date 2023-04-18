@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Orders.Domain.DTO;
 using Orders.Domain.Entity;
@@ -6,6 +7,7 @@ using Orders.UseCase.Gateway;
 
 namespace Orders.Api.Controllers
 {
+    [EnableCors("AllowAllHeaders")]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : Controller
@@ -20,25 +22,26 @@ namespace Orders.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<CreateOrder> GetOrderById(string id)
+        public async Task<Order> GetOrderById(string id)
         {
             return await _orderUseCase.GetOrderById(id);
         }
 
+        [EnableCors("AllowAllHeaders")]
         [HttpPost]
-        public async Task<CreateOrder> CreateOrder(CreateOrder createOrder)
+        public async Task<Order> CreateOrder(CreateOrder createOrder)
         {
             return await _orderUseCase.CreateOrder(createOrder);
         }
 
         [HttpPut]
-        public async Task<CreateOrder> UpdateOrder(UpdateOrder updateOrder)
+        public async Task<Order> UpdateOrder(UpdateOrder updateOrder)
         {
             return await _orderUseCase.UpdateOrder(updateOrder);
         }
 
         [HttpGet("ordersbyuser/{id}")]
-        public async Task<List<CreateOrder>> GetOrdersByUserId(string id)
+        public async Task<List<Order>> GetOrdersByUserId(string id)
         {
             return await _orderUseCase.GetOrdersByUserId(id);
         }

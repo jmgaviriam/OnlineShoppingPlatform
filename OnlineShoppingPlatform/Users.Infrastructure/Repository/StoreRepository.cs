@@ -25,6 +25,12 @@ namespace Users.Infrastructure.Repository
             _mapper = mapper;
         }
 
+        public async Task<List<Store>> GetStores()
+        {
+            var stores = await _collection.Find(x => x.IsDeleted == false).ToListAsync();
+            return _mapper.Map<List<Store>>(stores);
+        }
+
         public async Task<Store> GetStoreById(string id)
         {
             Guard.Against.NullOrWhiteSpace(id, nameof(id));

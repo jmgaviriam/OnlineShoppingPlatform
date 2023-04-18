@@ -35,7 +35,7 @@ namespace Users.Infrastructure.Repository
 
         public async Task<CreateProduct> CreateProduct(CreateProduct product)
         {
-            Guard.Against.Null(product, nameof(product));
+
             Guard.Against.NullOrEmpty(product.Name, nameof(product.Name));
             Guard.Against.NullOrEmpty(product.Description, nameof(product.Description));
             Guard.Against.NegativeOrZero(product.Price, nameof(product.Price));
@@ -50,7 +50,7 @@ namespace Users.Infrastructure.Repository
 
         public async Task<CreateProduct> UpdateProduct(UpdateProduct product)
         {
-            Guard.Against.Null(product, nameof(product));
+
             Guard.Against.NullOrEmpty(product.Name, nameof(product.Name));
             Guard.Against.NullOrEmpty(product.Description, nameof(product.Description));
             Guard.Against.NegativeOrZero(product.Price, nameof(product.Price));

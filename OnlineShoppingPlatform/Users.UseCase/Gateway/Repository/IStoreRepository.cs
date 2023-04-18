@@ -14,5 +14,6 @@ namespace Users.UseCase.Gateway.Repository
         Task<CreateStore> CreateStore(CreateStore store);
         Task<CreateStore> UpdateStore(UpdateStore store);
         Task<Store> DeleteStore(string id);
+        Task<List<Store>> GetStores();
     }
 }
