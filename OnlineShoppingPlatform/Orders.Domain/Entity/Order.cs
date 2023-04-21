@@ -16,11 +16,11 @@ namespace Orders.Domain.Entity
 
         public string PaymentId { get; set; }
 
-        public DateTime OrderDate { get; set; }
+        public string OrderDate { get; set; }
 
-        public DateTime ShippingDate { get; set; }
+        public string ShippingDate { get; set; }
 
-        public DateTime DeliveryDate { get; set; }
+        public string DeliveryDate { get; set; }
 
         public string ShippingAddress { get; set; }
 
